@@ -1,0 +1,1355 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.55.0",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@jsx",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxRuntime",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxFrag",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxImportSource",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@khni/auth!",
+  "docComment": "",
+  "name": "@khni/auth",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@khni/auth!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!BaseCreateUserData:type",
+          "docComment": "/**\n * Base fields required when creating any user.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type BaseCreateUserData = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    password: string;\n    identifier: string;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/local-auth/types.ts",
+          "releaseTag": "Public",
+          "name": "BaseCreateUserData",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@khni/auth!BcryptHasher:class",
+          "docComment": "/**\n * BCrypt implementation of the cryptographic hashing service\n *\n * @remarks\n *\n * Uses the bcrypt algorithm with 10 salt rounds for secure password hashing. BCrypt automatically handles salt generation and incorporates it into the hash.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class BcryptHasher implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IHasher",
+              "canonicalReference": "@khni/auth!IHasher:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/core/hasher/BcryptHasher.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "BcryptHasher",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!BcryptHasher#compare:member(1)",
+              "docComment": "/**\n * Verifies plain text against a bcrypt hash\n *\n * @remarks\n *\n * Securely compares the provided text with the stored hash by: 1. Extracting salt and cost factor from the stored hash 2. Hashing the input text with the same parameters 3. Comparing the resulting hashes in constant time\n *\n * @param text - Plain text password to verify\n *\n * @param hash - Previously generated bcrypt hash\n *\n * @returns Promise resolving to true if text matches hash, false otherwise\n *\n * @throws\n *\n * {Error} When bcrypt comparison fails (invalid hash format, system issues)\n *\n * @example\n * ```typescript\n * const hasher = new BcryptHasher();\n * const isValid = await hasher.compare(\n *   'userInputPassword',\n *   '$2b$10$X12aC9b6B9Uf9Z8Z9Y8Z9O...'\n * );\n * if (isValid) {\n *   console.log('Password is correct');\n * }\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "compare(text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", hash: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "text",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "hash",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "compare"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!BcryptHasher#hash:member(1)",
+              "docComment": "/**\n * Generates a secure bcrypt hash from plain text\n *\n * @remarks\n *\n * Uses 10 salt rounds which provides a good balance between security and performance. The resulting hash includes: - Algorithm identifier - Cost factor - 128-bit salt - 184-bit hash\n *\n * @param text - Plain text password to hash\n *\n * @returns Promise resolving to bcrypt hash string\n *\n * @throws\n *\n * {Error} When bcrypt hashing fails (invalid input, system resource issues)\n *\n * @example\n * ```typescript\n * const hasher = new BcryptHasher();\n * const hash = await hasher.hash('userPassword');\n * // Store hash in database: '$2b$10$X12aC9b6B9Uf9Z8Z9Y8Z9O...'\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "hash(text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "text",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "hash"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!IHasher:interface",
+          "docComment": "/**\n * Cryptographic hashing service contract\n *\n * @remarks\n *\n * Provides secure password hashing and verification capabilities. This interface abstracts the underlying hashing algorithm, allowing for easy implementation swaps (bcrypt, argon2, etc.).\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IHasher "
+            }
+          ],
+          "fileUrlPath": "src/core/hasher/IHasher.ts",
+          "releaseTag": "Public",
+          "name": "IHasher",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IHasher#compare:member(1)",
+              "docComment": "/**\n * Compares plain text against a cryptographic hash\n *\n * @param text - Plain text to verify (typically a password)\n *\n * @param hash - Previously generated hash to compare against\n *\n * @returns Promise resolving to boolean indicating match status\n *\n * @throws\n *\n * {Error} When comparison operation fails\n *\n * @example\n * ```typescript\n * const isValid = await hasher.compare('myPassword123', storedHash);\n * if (isValid) {\n *   // Password is correct\n * }\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "compare(text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", hash: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<boolean>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "text",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "hash",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "compare"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IHasher#hash:member(1)",
+              "docComment": "/**\n * Hashes plain text into a secure cryptographic hash\n *\n * @param text - Plain text to hash (typically a password)\n *\n * @returns Promise resolving to the generated hash string\n *\n * @throws\n *\n * {Error} When hashing operation fails\n *\n * @example\n * ```typescript\n * const hasher = new BcryptHasher();\n * const hash = await hasher.hash('myPassword123');\n * // Output: '$2b$10$X12aC9b6B9Uf9Z8Z9Y8Z9O...'\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "hash(text: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<string>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "text",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "hash"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!ILocalAuthService:interface",
+          "docComment": "/**\n * A service responsible for local-password authentication.\n *\n * @typeParam UserType - The returned user type.\n *\n * @typeParam CreateDataType - The accepted structure when creating a user.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ILocalAuthService<UserType, CreateDataType extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "src/local-auth/interfaces/ILocalAuthService.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "UserType",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "CreateDataType",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "ILocalAuthService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!ILocalAuthService#createUser:member(1)",
+              "docComment": "/**\n * Create a new user (handles hashing, validation).\n *\n * @param params - Wrapper containing the data used to create a user.\n *\n * @returns The created user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createUser(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        data: CreateDataType;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "createUser"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!ILocalAuthService#findUserByIdentifier:member",
+              "docComment": "/**\n * Locate a user by identifier.\n *\n * @param identifier - Email or phone.\n *\n * @returns A user or null.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findUserByIdentifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(identifier: string) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType | null>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "findUserByIdentifier",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!ILocalAuthService#resetPassword:member(1)",
+              "docComment": "/**\n * Reset a user's password.\n *\n * @param data - Includes the identifier and the new plaintext password.\n *\n * @returns The updated user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "resetPassword(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        data: {\n            newPassword: string;\n            identifier: string;\n        };\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "resetPassword"
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!ILocalAuthService#verifyPassword:member",
+              "docComment": "/**\n * Verify that a given password matches the user's stored hash.\n *\n * @param data - Contains the identifier and plaintext password.\n *\n * @returns The authenticated user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verifyPassword: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(params: {\n        data: {\n            password: string;\n            identifier: string;\n        };\n    }) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "verifyPassword",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!IUserRepository:interface",
+          "docComment": "/**\n * Interface for interacting with the User storage layer.\n *\n * @typeParam UserType - The shape of the resulting user object.\n *\n * @typeParam CreateDataType - The input structure allowed when creating a user.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IUserRepository<UserType extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": ", CreateDataType extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "src/local-auth/interfaces/IUserRepository.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "UserType",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "CreateDataType",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "IUserRepository",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IUserRepository#create:member(1)",
+              "docComment": "/**\n * Create a new user in the persistence layer.\n *\n * @param params - Validated data including hashed password and identifier type.\n *\n * @returns The created user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "create(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "CreateDataType"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "create"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IUserRepository#findByIdentifier:member(1)",
+              "docComment": "/**\n * Find a user by email or phone.\n *\n * @param params - Object containing the identifier string.\n *\n * @returns A user if found, otherwise null.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findByIdentifier(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        identifier: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType | null>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "findByIdentifier"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IUserRepository#update:member(1)",
+              "docComment": "/**\n * Update a user partially.\n *\n * @param params - Object including partial data and identifier.\n *\n * @returns The updated user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "update(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        data: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>;\n        identifier: string;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "update"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@khni/auth!LocalAuthService:class",
+          "docComment": "/**\n * Local authentication service that: - Validates identifiers - Hashes passwords - Verifies passwords - Delegates user creation/update to a user service\n *\n * @typeParam UserType - Returned user type.\n *\n * @typeParam S - A concrete UserRepository implementing IUserRepository.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class LocalAuthService<UserType, S extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "IUserRepository",
+              "canonicalReference": "@khni/auth!IUserRepository:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<any, "
+            },
+            {
+              "kind": "Reference",
+              "text": "BaseCreateUserData",
+              "canonicalReference": "@khni/auth!BaseCreateUserData:type"
+            },
+            {
+              "kind": "Content",
+              "text": ">"
+            },
+            {
+              "kind": "Content",
+              "text": "> implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "ILocalAuthService",
+              "canonicalReference": "@khni/auth!ILocalAuthService:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<UserType, "
+            },
+            {
+              "kind": "Reference",
+              "text": "Parameters",
+              "canonicalReference": "!Parameters:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<S[\"create\"]>[0]>"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/local-auth/LocalAuthService.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "UserType",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "S",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "isAbstract": false,
+          "name": "LocalAuthService",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@khni/auth!LocalAuthService:constructor(1)",
+              "docComment": "/**\n * Creates a new LocalAuthService instance.\n *\n * @param UserRepository - Implementation of IUserRepository.\n *\n * @param hasher - Hashing adapter (bcrypt, argon2, etc).\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(UserRepository: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "S"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", hasher?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IHasher",
+                  "canonicalReference": "@khni/auth!IHasher:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "UserRepository",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "hasher",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": true
+                }
+              ]
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@khni/auth!LocalAuthService#createUser:member",
+              "docComment": "/**\n * Create a new local user after: - Validating the identifier - Checking uniqueness - Hashing the password\n *\n * @param data - User creation input\n *\n * @returns The created user\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createUser: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "({ data, }: {\n        data: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Parameters",
+                  "canonicalReference": "!Parameters:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<S[\"create\"]>[0];\n    }) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Awaited",
+                  "canonicalReference": "!Awaited:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ReturnType",
+                  "canonicalReference": "!ReturnType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<S[\"create\"]>>>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "createUser",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 10
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@khni/auth!LocalAuthService#findUserByIdentifier:member",
+              "docComment": "/**\n * Find a user by identifier.\n *\n * @param identifier - Email or phone.\n *\n * @returns The found user or null.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findUserByIdentifier: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(identifier: string) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Awaited",
+                  "canonicalReference": "!Awaited:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ReturnType",
+                  "canonicalReference": "!ReturnType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<S[\"findByIdentifier\"]>>>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "findUserByIdentifier",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 8
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@khni/auth!LocalAuthService#resetPassword:member",
+              "docComment": "/**\n * Reset a user's password.\n *\n * @param data - Identifier and new plaintext password.\n *\n * @returns Updated user with new hashed password.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "resetPassword: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "({ data, }: {\n        data: {\n            newPassword: string;\n            identifier: string;\n        };\n    }) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Awaited",
+                  "canonicalReference": "!Awaited:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ReturnType",
+                  "canonicalReference": "!ReturnType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<S[\"update\"]>>>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "resetPassword",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 8
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@khni/auth!LocalAuthService#verifyPassword:member",
+              "docComment": "/**\n * Verify a user's password by: - Finding user - Ensuring they are local-auth enabled - Comparing hashes\n *\n * @param data - Identifier and plaintext password.\n *\n * @returns The authenticated user.\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verifyPassword: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "({ data, }: {\n        data: {\n            password: string;\n            identifier: string;\n        };\n    }) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<UserType>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "verifyPassword",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 6,
+              "endIndex": 10
+            }
+          ]
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!UserIdentifierType:type",
+          "docComment": "/**\n * The supported user identifier types.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type UserIdentifierType = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"email\" | \"phone\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/local-auth/types.ts",
+          "releaseTag": "Public",
+          "name": "UserIdentifierType",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "@khni/auth",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "description": "A modular, extensible authentication system for Node.js and TypeScript with support for various authentication strategies, token management, and user session handling.",
+  "author": {
+    "name": "Khaled Eleskandrany",
+    "email": "khaledeskandrany@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khni/auth.git"
+  },
+  "homepage": "https://github.com/khni/auth#readme",
+  "bugs": {
+    "url": "https://github.com/khni/auth/issues"
+  },
+  "keywords": [
+    "auth",
+    "authentication",
+    "security",
+    "token",
+    "session",
+    "user",
+    "express",
+    "nodejs",
+    "typescript",
+    "validation"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "api:docs": "api-documenter markdown -i temp -o docs",
+    "api:extract": "api-extractor run --local"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@microsoft/api-documenter": "^7.26.29",
+    "@microsoft/api-extractor": "^7.52.8",
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.3",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "^3.2.3",
+    "eslint": "^9.28.0",
+    "typescript": "~5.8.3",
+    "vitest": "^3.2.3",
+    "zod": "^4.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@khni/auth-errors": "^1.0.0",
+    "@khni/error-handler": "^1.1.0",
+    "bcrypt": "^6.0.0"
+  }
+}
