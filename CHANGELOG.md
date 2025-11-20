@@ -1,5 +1,11 @@
 # @khni/auth
 
+## 0.2.0
+
+### Minor Changes
+
+- implement hasher and token
+
 ## 0.1.0
 
 ### Minor Changes

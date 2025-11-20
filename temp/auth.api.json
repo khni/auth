@@ -370,6 +370,302 @@
           ]
         },
         {
+          "kind": "Class",
+          "canonicalReference": "@khni/auth!CryptoTokenGenerator:class",
+          "docComment": "/**\n * A cryptographic token generator that implements the ICrypto interface. Provides methods for generating secure random tokens in various formats.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class CryptoTokenGenerator implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "ICrypto",
+              "canonicalReference": "@khni/auth!ICrypto:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/core/crypto/Crypto.ts",
+          "releaseTag": "Public",
+          "isAbstract": false,
+          "name": "CryptoTokenGenerator",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!CryptoTokenGenerator#generateBase64UrlToken:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random token in Base64 URL-safe format.\n *\n * @param byteLength - The number of random bytes to generate (before encoding)\n *\n * @returns A Base64 URL-safe encoded string representing the random bytes\n *\n * @example\n * ```typescript\n * const token = generator.generateBase64UrlToken(16); // URL-safe base64 string\n * ```\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateBase64UrlToken(byteLength: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "byteLength",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "generateBase64UrlToken"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!CryptoTokenGenerator#generateHexToken:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random token in hexadecimal format.\n *\n * @param byteLength - The number of random bytes to generate (before hex encoding)\n *\n * @returns A hexadecimal string representing the random bytes\n *\n * @example\n * ```typescript\n * const token = generator.generateHexToken(16); // 32-character hex string\n * ```\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateHexToken(byteLength: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "byteLength",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "generateHexToken"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!CryptoTokenGenerator#generateUUID:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random UUID (Universally Unique Identifier).\n *\n * @returns A UUID string in the format 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'\n *\n * @example\n * ```typescript\n * const uuid = generator.generateUUID(); // 'f47ac10b-58cc-4372-a567-0e02b2c3d479'\n * ```\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateUUID(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "generateUUID"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!ICrypto:interface",
+          "docComment": "/**\n * Interface for cryptographic token generation operations.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface ICrypto "
+            }
+          ],
+          "fileUrlPath": "src/core/crypto/ICrypto.ts",
+          "releaseTag": "Public",
+          "name": "ICrypto",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!ICrypto#generateBase64UrlToken:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random token in Base64 URL-safe format.\n *\n * @param byteLength - The number of random bytes to generate (before encoding)\n *\n * @returns A Base64 URL-safe encoded string representing the random bytes\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateBase64UrlToken(byteLength: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "byteLength",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "generateBase64UrlToken"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!ICrypto#generateHexToken:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random token in hexadecimal format.\n *\n * @param byteLength - The number of random bytes to generate (before hex encoding)\n *\n * @returns A hexadecimal string representing the random bytes\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateHexToken(byteLength: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "number"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "byteLength",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "generateHexToken"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!ICrypto#generateUUID:member(1)",
+              "docComment": "/**\n * Generates a cryptographically secure random UUID (Universally Unique Identifier).\n *\n * @returns A UUID string in the standard format\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "generateUUID(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [],
+              "name": "generateUUID"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
           "kind": "Interface",
           "canonicalReference": "@khni/auth!IHasher:interface",
           "docComment": "/**\n * Cryptographic hashing service contract\n *\n * @remarks\n *\n * Provides secure password hashing and verification capabilities. This interface abstracts the underlying hashing algorithm, allowing for easy implementation swaps (bcrypt, argon2, etc.).\n *\n * @public\n */\n",
@@ -737,6 +1033,144 @@
         },
         {
           "kind": "Interface",
+          "canonicalReference": "@khni/auth!IToken:interface",
+          "docComment": "/**\n * Interface for token signing and verification operations.\n *\n * @typeParam Payload - The type of the payload to be encoded in the token\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IToken<Payload> "
+            }
+          ],
+          "fileUrlPath": "src/core/token/IToken.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Payload",
+              "constraintTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "name": "IToken",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IToken#sign:member(1)",
+              "docComment": "/**\n * Signs a payload to create a token with specified expiration.\n *\n * @param payload - The data to be encoded in the token\n *\n * @param options - Configuration options including expiration time\n *\n * @returns The signed token string\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sign(payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Payload"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SignTokenOptions",
+                  "canonicalReference": "@khni/auth!SignTokenOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "sign"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IToken#verify:member(1)",
+              "docComment": "/**\n * Verifies and decodes a token, returning the original payload.\n *\n * @param token - The token string to verify\n *\n * @returns The decoded payload\n *\n * @throws\n *\n * {Error} If the token is invalid, expired, or malformed\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verify(token: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "Payload"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "token",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "verify"
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
           "canonicalReference": "@khni/auth!IUserRepository:interface",
           "docComment": "/**\n * Interface for interacting with the User storage layer.\n *\n * @typeParam UserType - The shape of the resulting user object.\n *\n * @typeParam CreateDataType - The input structure allowed when creating a user.\n *\n * @public\n */\n",
           "excerptTokens": [
@@ -962,6 +1396,226 @@
             }
           ],
           "extendsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@khni/auth!Jwt:class",
+          "docComment": "/**\n * JSON Web Token implementation that provides type-safe token operations. This class handles signing and verification of JWT tokens with proper expiration handling and payload typing.\n *\n * @typeParam T - The type of the payload object, must extend object\n *\n * @example\n * ```typescript\n * interface UserPayload { userId: string; role: string; }\n * const jwt = new Jwt<UserPayload>(\"secret-key\");\n *\n * // Sign a token\n * const token = jwt.sign({ userId: \"123\", role: \"admin\" }, { expiresIn: \"1h\" });\n *\n * // Verify a token\n * const payload = jwt.verify(token);\n * ```\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class Jwt<T extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": "> implements "
+            },
+            {
+              "kind": "Reference",
+              "text": "IToken",
+              "canonicalReference": "@khni/auth!IToken:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<T>"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "fileUrlPath": "src/core/token/Jwt.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "T",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            }
+          ],
+          "isAbstract": false,
+          "name": "Jwt",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@khni/auth!Jwt:constructor(1)",
+              "docComment": "/**\n * Creates a new JWT instance with the specified secret.\n *\n * @param jwtSecret - The secret key used for signing and verifying tokens\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(jwtSecret: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "jwtSecret",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!Jwt#sign:member(1)",
+              "docComment": "/**\n * Signs a payload to create a JWT token with specified expiration. Automatically removes any existing 'exp' or 'iat' claims from the payload when expiresIn is provided to avoid conflicts.\n *\n * @param payload - The data to be encoded in the token\n *\n * @param options - Configuration options including expiration time\n *\n * @returns The signed JWT token string\n *\n * @throws\n *\n * {Error} If expiresIn is provided as a number instead of string\n *\n * @example\n * ```typescript\n * const token = jwt.sign(\n *   { userId: \"123\", name: \"John\" },\n *   { expiresIn: \"2h\" }\n * );\n * ```\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sign(payload: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "T"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SignTokenOptions",
+                  "canonicalReference": "@khni/auth!SignTokenOptions:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "payload",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "sign"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@khni/auth!Jwt#verify:member(1)",
+              "docComment": "/**\n * Verifies and decodes a JWT token, returning the original payload. Throws an error if the token is expired, invalid, or malformed.\n *\n * @param token - The JWT token string to verify\n *\n * @param options - Additional verification options from jsonwebtoken\n *\n * @returns The decoded payload of type T\n *\n * @throws\n *\n * {TokenExpiredError} If the token has expired\n *\n * @throws\n *\n * {JsonWebTokenError} If the token is invalid\n *\n * @throws\n *\n * {Error} For other verification failures\n *\n * @example\n * ```typescript\n * try {\n *   const payload = jwt.verify(token);\n *   console.log(payload.userId); // Type-safe access\n * } catch (error) {\n *   if (error instanceof TokenExpiredError) {\n *     // Handle expired token\n *   }\n * }\n * ```\n *\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verify(token: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "VerifyOptions",
+                  "canonicalReference": "@types/jsonwebtoken!VerifyOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "T"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "token",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": true
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "verify"
+            }
+          ],
+          "implementsTokenRanges": [
+            {
+              "startIndex": 3,
+              "endIndex": 5
+            }
+          ]
         },
         {
           "kind": "Class",
@@ -1325,6 +1979,135 @@
         },
         {
           "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!SafeSignOptions:type",
+          "docComment": "/**\n * Safe signing options that prevent accidental use of numeric expiresIn values. Extends jsonwebtoken's SignOptions but restricts expiresIn to string format.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type SafeSignOptions = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Omit",
+              "canonicalReference": "!Omit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "SignOptions",
+              "canonicalReference": "@types/jsonwebtoken!SignOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", \"expiresIn\"> & {\n    expiresIn?: `${number}${\"s\" | \"m\" | \"h\" | \"d\"}`;\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/core/token/Jwt.ts",
+          "releaseTag": "Public",
+          "name": "SafeSignOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!SignTokenOptions:type",
+          "docComment": "/**\n * Options for signing tokens with expiration time.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type SignTokenOptions = "
+            },
+            {
+              "kind": "Content",
+              "text": "{\n    expiresIn: "
+            },
+            {
+              "kind": "Reference",
+              "text": "ValidTimeString",
+              "canonicalReference": "@khni/auth!ValidTimeString:type"
+            },
+            {
+              "kind": "Content",
+              "text": ";\n}"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/core/token/IToken.ts",
+          "releaseTag": "Public",
+          "name": "SignTokenOptions",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!TimeUnit:type",
+          "docComment": "/**\n * Supported time units for token expiration.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type TimeUnit = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"ms\" | \"s\" | \"m\" | \"h\" | \"d\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/core/token/IToken.ts",
+          "releaseTag": "Public",
+          "name": "TimeUnit",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Variable",
+          "canonicalReference": "@khni/auth!TokenExpiredError:var",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "TokenExpiredError: "
+            },
+            {
+              "kind": "Content",
+              "text": "typeof "
+            },
+            {
+              "kind": "Reference",
+              "text": "jwt.TokenExpiredError",
+              "canonicalReference": "@types/jsonwebtoken!TokenExpiredError:class"
+            }
+          ],
+          "fileUrlPath": "src/core/token/Jwt.ts",
+          "isReadonly": true,
+          "releaseTag": "Public",
+          "name": "TokenExpiredError",
+          "variableTypeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 3
+          }
+        },
+        {
+          "kind": "TypeAlias",
           "canonicalReference": "@khni/auth!UserIdentifierType:type",
           "docComment": "/**\n * The supported user identifier types.\n *\n * @public\n */\n",
           "excerptTokens": [
@@ -1347,6 +2130,41 @@
           "typeTokenRange": {
             "startIndex": 1,
             "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!ValidTimeString:type",
+          "docComment": "/**\n * A valid time string in the format: number followed by time unit. Examples: \"10m\", \"1h\", \"7d\", \"30s\"\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type ValidTimeString = "
+            },
+            {
+              "kind": "Content",
+              "text": "`${number}${"
+            },
+            {
+              "kind": "Reference",
+              "text": "TimeUnit",
+              "canonicalReference": "@khni/auth!TimeUnit:type"
+            },
+            {
+              "kind": "Content",
+              "text": "}`"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/core/token/IToken.ts",
+          "releaseTag": "Public",
+          "name": "ValidTimeString",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
           }
         }
       ]

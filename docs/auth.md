@@ -30,6 +30,28 @@ BCrypt implementation of the cryptographic hashing service
 </td></tr>
 <tr><td>
 
+[CryptoTokenGenerator](./auth.cryptotokengenerator.md)
+
+
+</td><td>
+
+A cryptographic token generator that implements the ICrypto interface. Provides methods for generating secure random tokens in various formats.
+
+
+</td></tr>
+<tr><td>
+
+[Jwt](./auth.jwt.md)
+
+
+</td><td>
+
+JSON Web Token implementation that provides type-safe token operations. This class handles signing and verification of JWT tokens with proper expiration handling and payload typing.
+
+
+</td></tr>
+<tr><td>
+
 [LocalAuthService](./auth.localauthservice.md)
 
 
@@ -56,6 +78,17 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
+[ICrypto](./auth.icrypto.md)
+
+
+</td><td>
+
+Interface for cryptographic token generation operations.
+
+
+</td></tr>
+<tr><td>
+
 [IHasher](./auth.ihasher.md)
 
 
@@ -78,12 +111,47 @@ A service responsible for local-password authentication.
 </td></tr>
 <tr><td>
 
+[IToken](./auth.itoken.md)
+
+
+</td><td>
+
+Interface for token signing and verification operations.
+
+
+</td></tr>
+<tr><td>
+
 [IUserRepository](./auth.iuserrepository.md)
 
 
 </td><td>
 
 Interface for interacting with the User storage layer.
+
+
+</td></tr>
+</tbody></table>
+
+## Variables
+
+<table><thead><tr><th>
+
+Variable
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+[TokenExpiredError](./auth.tokenexpirederror.md)
+
+
+</td><td>
 
 
 </td></tr>
@@ -115,12 +183,56 @@ Base fields required when creating any user.
 </td></tr>
 <tr><td>
 
+[SafeSignOptions](./auth.safesignoptions.md)
+
+
+</td><td>
+
+Safe signing options that prevent accidental use of numeric expiresIn values. Extends jsonwebtoken's SignOptions but restricts expiresIn to string format.
+
+
+</td></tr>
+<tr><td>
+
+[SignTokenOptions](./auth.signtokenoptions.md)
+
+
+</td><td>
+
+Options for signing tokens with expiration time.
+
+
+</td></tr>
+<tr><td>
+
+[TimeUnit](./auth.timeunit.md)
+
+
+</td><td>
+
+Supported time units for token expiration.
+
+
+</td></tr>
+<tr><td>
+
 [UserIdentifierType](./auth.useridentifiertype.md)
 
 
 </td><td>
 
 The supported user identifier types.
+
+
+</td></tr>
+<tr><td>
+
+[ValidTimeString](./auth.validtimestring.md)
+
+
+</td><td>
+
+A valid time string in the format: number followed by time unit. Examples: "10m", "1h", "7d", "30s"
 
 
 </td></tr>
