@@ -70,6 +70,7 @@
   "dependencies": {
     "@khni/auth-errors": "^1.0.0",
     "@khni/error-handler": "^1.1.0",
+    "@khni/utils": "^1.0.0",
     "bcrypt": "^6.0.0",
     "jsonwebtoken": "^9.0.2"
   }

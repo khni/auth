@@ -14,6 +14,9 @@ importers:
       '@khni/error-handler':
         specifier: ^1.1.0
         version: 1.1.0
+      '@khni/utils':
+        specifier: ^1.0.0
+        version: 1.0.0
       bcrypt:
         specifier: ^6.0.0
         version: 6.0.0
@@ -397,6 +400,9 @@ packages:
 
   '@khni/error-handler@1.1.0':
     resolution: {integrity: sha512-RfP9U6J/1IBMsYzZLgwWwm7qA+liyGs70tmdwizs5zZHCs7Ppyxx1KT8H1eSyMqGqrBgZbi+l1Lp4Hce9WxUdw==}
+
+  '@khni/utils@1.0.0':
+    resolution: {integrity: sha512-DkFK7vbanif6hQg87SFaXppP6GtsD2F8IuxkHldrOsxMcsKx+0xTbHxiKJF16ZrIZBNC+Prn/TgG6utWz9wSVg==}
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -2047,6 +2053,8 @@ snapshots:
   '@khni/error-handler@1.1.0':
     dependencies:
       serialize-error: 12.0.0
+
+  '@khni/utils@1.0.0': {}
 
   '@manypkg/find-root@1.1.0':
     dependencies:
