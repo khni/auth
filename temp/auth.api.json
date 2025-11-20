@@ -189,6 +189,217 @@
       "preserveMemberOrder": false,
       "members": [
         {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!AccessTokenServiceConfig:interface",
+          "docComment": "/**\n * Configuration needed to create an {@link AccessTokenService}.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface AccessTokenServiceConfig "
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "releaseTag": "Public",
+          "name": "AccessTokenServiceConfig",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!AccessTokenServiceConfig#accessTokenExpiresIn:member",
+              "docComment": "/**\n * Token expiration time (e.g., `\"1h\"`, `\"30m\"`).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "accessTokenExpiresIn: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ValidTimeString",
+                  "canonicalReference": "@khni/auth!~ValidTimeString_2:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "accessTokenExpiresIn",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!AccessTokenServiceConfig#jwtSecret:member",
+              "docComment": "/**\n * JWT secret used to sign access tokens.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "jwtSecret: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "jwtSecret",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@khni/auth!AuthModuleConfig:type",
+          "docComment": "/**\n * Configuration used to initialize the entire Auth module.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type AuthModuleConfig = "
+            },
+            {
+              "kind": "Reference",
+              "text": "AccessTokenServiceConfig",
+              "canonicalReference": "@khni/auth!AccessTokenServiceConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " & "
+            },
+            {
+              "kind": "Reference",
+              "text": "RefreshTokenServiceConfig",
+              "canonicalReference": "@khni/auth!RefreshTokenServiceConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "releaseTag": "Public",
+          "name": "AuthModuleConfig",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 4
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!AuthServices:interface",
+          "docComment": "/**\n * Bundled set of all authentication-related services.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface AuthServices "
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "releaseTag": "Public",
+          "name": "AuthServices",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!AuthServices#accessTokenService:member",
+              "docComment": "/**\n * Access token generation & validation logic.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "accessTokenService: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AccessTokenService",
+                  "canonicalReference": "@khni/auth!~AccessTokenService:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "accessTokenService",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!AuthServices#authTokensService:member",
+              "docComment": "/**\n * Combined API for generating both access & refresh tokens.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "authTokensService: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "AuthTokensService",
+                  "canonicalReference": "@khni/auth!~AuthTokensService:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "authTokensService",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!AuthServices#refreshTokenService:member",
+              "docComment": "/**\n * Refresh token creation, rotation, storage, and validation logic.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "refreshTokenService: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "RefreshTokenService",
+                  "canonicalReference": "@khni/auth!~RefreshTokenService:class"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "refreshTokenService",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
           "kind": "TypeAlias",
           "canonicalReference": "@khni/auth!BaseCreateUserData:type",
           "docComment": "/**\n * Base fields required when creating any user.\n *\n * @public\n */\n",
@@ -370,6 +581,49 @@
           ]
         },
         {
+          "kind": "Function",
+          "canonicalReference": "@khni/auth!createAuthTokenService:function(1)",
+          "docComment": "/**\n * Creates the full authentication service, returning ONLY the composed {@link AuthTokensService} instance.\n *\n * @remarks\n *\n * This is the recommended best-practice for production systems. It creates shared utilities (`Jwt`, `CryptoTokenGenerator`) **once**, making it highly resource-efficient.\n *\n * Call this function once at server startup and reuse the returned instance.\n *\n * @param config - Full module configuration.\n *\n * @returns The fully composed {@link AuthTokensService}.\n *\n * @example\n * ```ts\n * const authTokensService = createAuthTokenService({\n *   jwtSecret: process.env.JWT_SECRET!,\n *   accessTokenExpiresIn: \"1h\",\n *   refreshTokenExpiresIn: \"7d\",\n *   refreshTokenRepository,\n *   findUniqueUserById,\n * });\n *\n * const tokens = await authTokensService.createTokens(user);\n * ```\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "createAuthTokenService: (config: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AuthModuleConfig",
+              "canonicalReference": "@khni/auth!AuthModuleConfig:type"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "AuthTokensService",
+              "canonicalReference": "@khni/auth!~AuthTokensService:class"
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "config",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "createAuthTokenService"
+        },
+        {
           "kind": "Class",
           "canonicalReference": "@khni/auth!CryptoTokenGenerator:class",
           "docComment": "/**\n * A cryptographic token generator that implements the ICrypto interface. Provides methods for generating secure random tokens in various formats.\n *\n * @public\n */\n",
@@ -528,6 +782,699 @@
               "endIndex": 2
             }
           ]
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@khni/auth!getAccessTokenService:function(1)",
+          "docComment": "/**\n * Creates a standalone {@link AccessTokenService}.\n *\n * @remarks\n *\n * Use this function if you only need access token functionality.\n *\n * @param config - Service configuration.\n *\n * @returns A new {@link AccessTokenService} instance.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "getAccessTokenService: (config: "
+            },
+            {
+              "kind": "Reference",
+              "text": "AccessTokenServiceConfig",
+              "canonicalReference": "@khni/auth!AccessTokenServiceConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "AccessTokenService",
+              "canonicalReference": "@khni/auth!~AccessTokenService:class"
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "config",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "getAccessTokenService"
+        },
+        {
+          "kind": "Function",
+          "canonicalReference": "@khni/auth!getRefreshTokenService:function(1)",
+          "docComment": "/**\n * Creates a standalone {@link RefreshTokenService}.\n *\n * @remarks\n *\n * Use this function if you only need refresh token handling functionality.\n *\n * @param config - Service configuration.\n *\n * @returns A new {@link RefreshTokenService} instance.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "getRefreshTokenService: (config: "
+            },
+            {
+              "kind": "Reference",
+              "text": "RefreshTokenServiceConfig",
+              "canonicalReference": "@khni/auth!RefreshTokenServiceConfig:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ") => "
+            },
+            {
+              "kind": "Reference",
+              "text": "RefreshTokenService",
+              "canonicalReference": "@khni/auth!~RefreshTokenService:class"
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "returnTypeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "config",
+              "parameterTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isOptional": false
+            }
+          ],
+          "name": "getRefreshTokenService"
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!IBaseRepository:interface",
+          "docComment": "",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface IBaseRepository<Model extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ", WhereUniqueInput extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": ", CreateInput extends "
+            },
+            {
+              "kind": "Content",
+              "text": "object"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "Model"
+            },
+            {
+              "kind": "Content",
+              "text": ", UpdateInput extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "Partial",
+              "canonicalReference": "!Partial:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Model>"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Partial",
+              "canonicalReference": "!Partial:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<Model>"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "src/core/IBaseRepository.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "Model",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "WhereUniqueInput",
+              "constraintTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 0,
+                "endIndex": 0
+              }
+            },
+            {
+              "typeParameterName": "CreateInput",
+              "constraintTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              }
+            },
+            {
+              "typeParameterName": "UpdateInput",
+              "constraintTokenRange": {
+                "startIndex": 9,
+                "endIndex": 11
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 12,
+                "endIndex": 14
+              }
+            }
+          ],
+          "name": "IBaseRepository",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#count:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "count(params?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        where?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model>;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<number>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  },
+                  "isOptional": true
+                }
+              ],
+              "name": "count"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#create:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "create(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        data: CreateInput;\n        tx?: unknown;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "create"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#createTransaction:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "createTransaction<T>(callback: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "(tx: unknown) => "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<T>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "callback",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "typeParameters": [
+                {
+                  "typeParameterName": "T",
+                  "constraintTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  },
+                  "defaultTypeTokenRange": {
+                    "startIndex": 0,
+                    "endIndex": 0
+                  }
+                }
+              ],
+              "name": "createTransaction"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#delete:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "delete(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        where: WhereUniqueInput;\n        tx?: unknown;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<{\n        id: string;\n    } | null>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "delete"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#findFirst:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findFirst({ where, orderBy, }: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        where: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model>;\n        orderBy?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<keyof Model, \"asc\" | \"desc\">>;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model | null>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 11
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "{ where, orderBy, }",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 8
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "findFirst"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#findMany:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findMany(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        offset: number;\n        limit: number;\n        orderBy?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Record",
+                  "canonicalReference": "!Record:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<keyof Model, \"asc\" | \"desc\">>;\n        where?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Partial",
+                  "canonicalReference": "!Partial:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model>;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model[]>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 9,
+                "endIndex": 11
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 8
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "findMany"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#findUnique:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findUnique(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        where: WhereUniqueInput;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model | null>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "findUnique"
+            },
+            {
+              "kind": "MethodSignature",
+              "canonicalReference": "@khni/auth!IBaseRepository#update:member(1)",
+              "docComment": "",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "update(params: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "{\n        data: UpdateInput;\n        where: WhereUniqueInput;\n        tx?: unknown;\n    }"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<Model>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 5
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "params",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "name": "update"
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "Interface",
@@ -1976,6 +2923,108 @@
               "endIndex": 10
             }
           ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@khni/auth!RefreshTokenServiceConfig:interface",
+          "docComment": "/**\n * Configuration needed to create a {@link RefreshTokenService}.\n *\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface RefreshTokenServiceConfig "
+            }
+          ],
+          "fileUrlPath": "src/auth-tokens/index.ts",
+          "releaseTag": "Public",
+          "name": "RefreshTokenServiceConfig",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!RefreshTokenServiceConfig#findUniqueUserById:member",
+              "docComment": "/**\n * Function to find a user by ID (used to validate tokens).\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "findUniqueUserById: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "FindUniqueUserById",
+                  "canonicalReference": "@khni/auth!~FindUniqueUserById:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "findUniqueUserById",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!RefreshTokenServiceConfig#refreshTokenExpiresIn:member",
+              "docComment": "/**\n * Expiration time for refresh tokens.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "refreshTokenExpiresIn: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "ValidTimeString",
+                  "canonicalReference": "@khni/auth!~ValidTimeString_2:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "refreshTokenExpiresIn",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@khni/auth!RefreshTokenServiceConfig#refreshTokenRepository:member",
+              "docComment": "/**\n * Repository responsible for storing & retrieving refresh tokens.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "refreshTokenRepository: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "IRefreshTokenRepository",
+                  "canonicalReference": "@khni/auth!~IRefreshTokenRepository:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "refreshTokenRepository",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
         },
         {
           "kind": "TypeAlias",
