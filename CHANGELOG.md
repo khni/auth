@@ -1,5 +1,24 @@
 # @khni/auth
 
+## 1.0.0
+
+### Major Changes
+
+- - Add factory functions for lazy singleton service initialization (getAccessTokenService, getRefreshTokenService, getAuthTokensService)
+  - Implement type-safe configuration management with createConfig
+  - Add one-time logging mechanism for service initialization
+  - Include module initialization function (initAuthTokensModule) for bootstrap
+  - Provide test reset utility (\_\_resetAuthTokensModuleForTests) for testing
+  - Export proper TypeScript interfaces (AccessTokenServiceConfig, RefreshTokenServiceConfig, AuthModuleConfig)
+
+  The factory pattern ensures:
+
+  - Services are initialized only on first access (lazy loading)
+  - Singleton instances for all token services
+  - Type-safe configuration with runtime validation
+  - Optional logger integration with fallback to console
+  - Proper separation of concerns between service creation and usage"
+
 ## 0.2.0
 
 ### Minor Changes
