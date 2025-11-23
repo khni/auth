@@ -22,7 +22,8 @@
 
     "baseUrl": "./src",
     "paths": {
-      "@khni/core": ["core/index.ts"]
+      "@khni/core": ["core/index.ts"],
+      "@khni/auth-tokens": ["auth-tokens/index.ts"]
     }
   }
 }

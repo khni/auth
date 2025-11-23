@@ -1,5 +1,30 @@
 # @khni/auth
 
+## 1.1.0
+
+### Minor Changes
+
+- - 🌐 **Social Authentication**: Google and Facebook OAuth 2.0 support
+  - 🔧 **Multi-Provider System**: Extensible framework for additional social platforms
+  - 📝 **Professional Logging**: Structured logging for production monitoring
+  - �� **Comprehensive Documentation**: Complete social auth implementation guide
+
+  - `SocialAuthContext` - Manage multiple social authentication providers
+  - `SocialAuthLogin` - Complete social authentication flow with token generation
+  - `GoogleSocialAuthStrategy` - Google OAuth 2.0 implementation
+  - `FacebookSocialAuthStrategy` - Facebook OAuth implementation
+  - Structured logging interface for audit and monitoring
+
+  - Updated README with social authentication examples
+  - Added JSDoc documentation for all new classes and interfaces
+  - Improved error handling with contextual logging
+
+  - Added `axios` and `qs` for social provider integration
+
+  - ✅ **Backward Compatible**: All existing local authentication features unchanged
+  - 🎯 **Production Ready**: Includes professional logging and error handling
+  - 🔌 **Extensible**: Easy to add new social providers following the same pattern
+
 ## 1.0.0
 
 ### Major Changes

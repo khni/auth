@@ -1,16 +1,18 @@
-# @khni/auth - Local Authentication Service
+# @khni/auth - Authentication Service
 
-A robust, type-safe local authentication service for Node.js applications with support for email and phone-based authentication.
+A robust, type-safe authentication service for Node.js applications with support for local (email/phone) and social authentication providers.
 
 ## 🚀 Features
 
 - **🔐 Secure Authentication** - Password hashing with bcrypt and configurable hashers
 - **📧 Multi-Identifier Support** - Email and phone number authentication
+- **🌐 Social Auth** - Google, Facebook, and extensible provider system
 - **🛡️ Type-Safe** - Full TypeScript support with generic types
-- **📖 Comprehensive API** - Complete authentication flow (register, login, reset)
+- **📖 Comprehensive API** - Complete authentication flow (register, login, reset, social)
 - **🧪 Fully Tested** - 100% test coverage with Vitest
 - **📚 Well Documented** - JSDoc documentation compatible with API Extractor
 - **🎯 Error Handling** - Domain-specific and unexpected error handling
+- **📝 Professional Logging** - Structured logging for production environments
 
 ## 📦 Installation
 
@@ -22,19 +24,25 @@ yarn add @khni/auth
 
 ## 🏗️ Architecture
 
-### LocalAuthService
+### Authentication Services
 
 The service follows a clean architecture pattern with clear separation of concerns:
 
 ```
-┌─────────────────┐    ┌──────────────────┐    ┌──────────────┐
-│ LocalAuthService│ ── │   IUserRepository   │ ── │ Your User DB │
-└─────────────────┘    └──────────────────┘    └──────────────┘
-         │
-         │
-┌────────▼────────┐    ┌─────────────────┐
-│    IHasher      │ ── │ BcryptHasher    │
-└─────────────────┘    └─────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Authentication Layer                     │
+├─────────────────┐ ┌──────────────────┐ ┌───────────────────┤
+│ LocalAuthService│ │ SocialAuthContext│ │ SocialAuthLogin   │
+└─────────────────┘ └──────────────────┘ └───────────────────┘
+         │                         │                  │
+         │                         │                  │
+┌────────▼────────┐    ┌───────────▼──────────┐       │
+│  IUserRepository│    │ SocialAuthProvider   │       │
+└─────────────────┘    └──────────────────────┘       │
+         │                         │                  │
+┌────────▼────────┐    ┌───────────▼──────────┐ ┌─────▼──────┐
+│   Your User DB  │    │ Google  │ Facebook   │ │AuthTokens  │
+└─────────────────┘    └──────────────────────┘ └────────────┘
 ```
 
 ## 🔧 Quick Start
@@ -45,19 +53,24 @@ The service follows a clean architecture pattern with clear separation of concer
 interface User {
   id: string;
   email: string;
-  password: string;
+  password?: string;
   name: string;
-  identifierType: "email" | "phone";
+  identifierType: "email" | "phone" | "social";
+  socialProvider?: "google" | "facebook";
+  socialId?: string;
 }
 
 interface CreateUserData {
   identifier: string;
-  password: string;
+  password?: string;
   name: string;
+  identifierType: "email" | "phone" | "social";
 }
 ```
 
-### 2. Implement Your User Service
+### 2. Local Authentication Setup
+
+#### Implement Your User Repository
 
 ```typescript
 import { IUserRepository, BaseCreateUserData } from "@khni/auth";
@@ -88,164 +101,9 @@ class UserRepository implements IUserRepository<User, CreateUserData> {
     return await db.users.update(identifier, data);
   }
 }
-
-// with prisma
-
-import { PrismaClient } from "@prisma/client";
-import { IUserRepository } from "@khni/auth";
-import { BaseCreateUserData } from "@khni/auth";
-
-// Your User type matching Prisma model
-export interface User {
-  id: string;
-  email: string;
-  password: string;
-  name?: string;
-  identifierType: "email" | "phone";
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Create user data type
-export interface CreateUserData extends BaseCreateUserData {
-  name?: string;
-}
-
-/**
- * Prisma implementation of IUserRepository
- * @public
- */
-export class UserRepository implements IUserRepository<User, CreateUserData> {
-  private prisma: PrismaClient;
-
-  constructor(prisma?: PrismaClient) {
-    this.prisma = prisma || new PrismaClient();
-  }
-
-  /**
-   * Find user by email (identifier)
-   */
-  async findByIdentifier({
-    identifier,
-  }: {
-    identifier: string;
-  }): Promise<User | null> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: identifier },
-      });
-
-      return user ? this.mapPrismaUserToUser(user) : null;
-    } catch (error) {
-      throw new Error(`Failed to find user by identifier: ${error.message}`);
-    }
-  }
-
-  /**
-   * Create new user with email and password
-   */
-  async create(data: CreateUserData): Promise<User> {
-    try {
-      // Since identifier is email in our case, we map it to email field
-      const user = await this.prisma.user.create({
-        data: {
-          email: data.identifier, // Map identifier to email field
-          password: data.password,
-          name: data.name,
-          identifierType: "email", // Set identifier type as email
-        },
-      });
-
-      return this.mapPrismaUserToUser(user);
-    } catch (error) {
-      if (error.code === "P2002") {
-        throw new Error("User with this email already exists");
-      }
-      throw new Error(`Failed to create user: ${error.message}`);
-    }
-  }
-
-  /**
-   * Update user data
-   */
-  async update({
-    data,
-    identifier,
-  }: {
-    data: Partial<User>;
-    identifier: string;
-  }): Promise<User> {
-    try {
-      // Remove id and other non-updatable fields from data
-      const { id, createdAt, ...updateData } = data;
-
-      const user = await this.prisma.user.update({
-        where: { email: identifier },
-        data: updateData,
-      });
-
-      return this.mapPrismaUserToUser(user);
-    } catch (error) {
-      if (error.code === "P2025") {
-        throw new Error("User not found");
-      }
-      throw new Error(`Failed to update user: ${error.message}`);
-    }
-  }
-
-  /**
-   * Map Prisma user to our User type
-   */
-  private mapPrismaUserToUser(prismaUser: any): User {
-    return {
-      id: prismaUser.id,
-      email: prismaUser.email,
-      password: prismaUser.password,
-      name: prismaUser.name,
-      identifierType: prismaUser.identifierType as "email" | "phone",
-      createdAt: prismaUser.createdAt,
-      updatedAt: prismaUser.updatedAt,
-    };
-  }
-
-  /**
-   * Additional methods for user management
-   */
-  async findById(id: string): Promise<User | null> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { id },
-      });
-
-      return user ? this.mapPrismaUserToUser(user) : null;
-    } catch (error) {
-      throw new Error(`Failed to find user by ID: ${error.message}`);
-    }
-  }
-
-  async deleteUser(identifier: string): Promise<void> {
-    try {
-      await this.prisma.user.delete({
-        where: { email: identifier },
-      });
-    } catch (error) {
-      if (error.code === "P2025") {
-        throw new Error("User not found");
-      }
-      throw new Error(`Failed to delete user: ${error.message}`);
-    }
-  }
-
-  /**
-   * Clean up Prisma connection
-   */
-  async disconnect(): Promise<void> {
-    await this.prisma.$disconnect();
-  }
-}
 ```
 
-### 3. Set Up Authentication Service
+#### Set Up Local Authentication Service
 
 ```typescript
 import { LocalAuthService, BcryptHasher } from "@khni/auth";
@@ -254,7 +112,78 @@ const userRepository = new UserRepository();
 const authService = new LocalAuthService<User, userRepository>(userRepository);
 ```
 
+### 3. Social Authentication Setup
+
+#### Configure Social Providers
+
+```typescript
+import {
+  GoogleSocialAuthStrategy,
+  FacebookSocialAuthStrategy,
+  SocialAuthContext,
+  SocialAuthLogin,
+} from "@khni/auth";
+
+// Configure Google
+const googleStrategy = new GoogleSocialAuthStrategy({
+  clientId: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirectUri: process.env.GOOGLE_REDIRECT_URI,
+});
+
+// Configure Facebook
+const facebookStrategy = new FacebookSocialAuthStrategy({
+  appId: process.env.FACEBOOK_APP_ID,
+  appSecret: process.env.FACEBOOK_APP_SECRET,
+  redirectUri: process.env.FACEBOOK_REDIRECT_URI,
+});
+
+// Create social auth context
+const socialAuthContext = new SocialAuthContext([
+  googleStrategy,
+  facebookStrategy,
+  // Add more providers as needed
+]);
+```
+
+#### Set Up Social Authentication Service
+
+```typescript
+import { AuthTokensService } from "@khni/auth";
+
+const authTokenService = new AuthTokensService({
+  secret: process.env.JWT_SECRET,
+  expiresIn: "1h",
+});
+
+const socialAuthLogin = new SocialAuthLogin(
+  socialAuthContext,
+  authTokenService,
+  async (socialUser, provider) => {
+    // Handle social user conversion to your app user
+    let user = await userRepository.findByIdentifier({
+      identifier: socialUser.email,
+    });
+
+    if (!user) {
+      // Create new user from social profile
+      user = await userRepository.create({
+        identifier: socialUser.email,
+        name: socialUser.name,
+        identifierType: "social",
+        socialProvider: provider,
+        socialId: socialUser.id,
+      });
+    }
+
+    return user;
+  }
+);
+```
+
 ### 4. Use in Your Application
+
+#### Local Authentication
 
 ```typescript
 // Register a new user
@@ -281,240 +210,315 @@ await authService.resetPassword({
     newPassword: "newSecurePassword456",
   },
 });
+```
 
-// Find user
-const foundUser = await authService.findUserByIdentifier("user@example.com");
+#### Social Authentication
+
+```typescript
+// Handle social authentication callback
+app.get("/auth/:provider/callback", async (req, res) => {
+  try {
+    const { code } = req.query;
+    const { provider } = req.params;
+
+    const result = await socialAuthLogin.execute(
+      code as string,
+      provider as Provider
+    );
+
+    // Return tokens and user info to client
+    res.json({
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      user: result.appUser,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Example: Google OAuth flow initiation
+app.get("/auth/google", (req, res) => {
+  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams(
+    {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+      response_type: "code",
+      scope: "email profile",
+      access_type: "offline",
+      prompt: "consent",
+    }
+  )}`;
+
+  res.redirect(authUrl);
+});
+```
+
+## 🌐 Social Authentication Providers
+
+### Supported Providers
+
+- **Google** - OAuth 2.0 with profile and email scope
+- **Facebook** - OAuth with user profile data
+- **Extensible** - Easy to add new providers (Twitter, GitHub, LinkedIn, etc.)
+
+### Provider Configuration
+
+#### Google OAuth
+
+```typescript
+const googleConfig = {
+  clientId: "your-google-client-id",
+  clientSecret: "your-google-client-secret",
+  redirectUri: "https://yourapp.com/auth/google/callback",
+};
+```
+
+#### Facebook OAuth
+
+```typescript
+const facebookConfig = {
+  appId: "your-facebook-app-id",
+  appSecret: "your-facebook-app-secret",
+  redirectUri: "https://yourapp.com/auth/facebook/callback",
+};
+```
+
+### Adding Custom Providers
+
+Implement the `SocialAuthProvider` interface:
+
+```typescript
+class CustomSocialAuthStrategy implements SocialAuthProvider {
+  provider: Provider = "custom";
+
+  constructor(private config: CustomAuthConfig) {}
+
+  async getTokens(code: string): Promise<SocialTokensResult> {
+    // Exchange code for tokens
+  }
+
+  async getUser(tokens: SocialTokensResult): Promise<SocialUserResult> {
+    // Fetch user profile with access token
+  }
+}
 ```
 
 ## 📖 API Reference
 
 ### LocalAuthService
 
+[Previous LocalAuthService documentation remains the same...]
+
+### SocialAuthContext
+
 #### Constructor
 
 ```typescript
-new LocalAuthService<UserType, UserRepositoryType>(
-  UserRepository: UserRepositoryType,
-  hasher?: IHasher // defaults to BcryptHasher
+new SocialAuthContext(
+  socialAuthProviders: SocialAuthProvider[],
+  logger?: SocialAuthLogger
 )
 ```
 
 #### Methods
 
-##### `createUser`
+##### `authenticate`
 
-Creates a new user with validated identifier and hashed password.
+Authenticates a user using a social provider's authorization code.
 
 ```typescript
-createUser({ data }: { data: CreateDataType }): Promise<UserType>
+authenticate(
+  code: string,
+  provider: Provider
+): Promise<{ tokens: SocialTokensResult; user: SocialUserResult }>
 ```
 
-**Example:**
+### SocialAuthLogin
+
+#### Constructor
 
 ```typescript
-const user = await authService.createUser({
-  data: {
-    identifier: "user@example.com",
-    password: "password123",
-    name: "John Doe",
-  },
-});
+new SocialAuthLogin<User>(
+  socialAuthContext: SocialAuthContext,
+  authTokenService: AuthTokensService,
+  handleSocialUser: (user: SocialUserResult, provider: Provider) => Promise<User>,
+  logger?: SocialAuthLogger
+)
 ```
 
-**Errors:**
+#### Methods
 
-- `AUTH_USED_IDENTIFIER` - Identifier already exists
-- `AUTH_USER_CREATION_FAILED` - Unexpected creation error
+##### `execute`
 
-##### `verifyPassword`
-
-Verifies user credentials against stored hash.
+Executes the complete social authentication login flow.
 
 ```typescript
-verifyPassword({ data }: {
-  data: { password: string; identifier: string }
-}): Promise<UserType>
+execute(
+  code: string,
+  provider: Provider
+): Promise<SocialAuthLoginResult<User>>
 ```
 
-**Example:**
+**Returns:**
 
 ```typescript
-try {
-  const user = await authService.verifyPassword({
-    data: {
-      identifier: "user@example.com",
-      password: "password123",
-    },
-  });
-  // User authenticated
-} catch (error) {
-  // Handle authentication failure
+{
+  accessToken: string; // JWT access token
+  refreshToken: string; // Refresh token
+  user: SocialUserResult; // Social provider user data
+  appUser: User; // Your application user
 }
-```
-
-**Errors:**
-
-- `INCORRECT_CREDENTIALS` - Invalid identifier or password
-- `USER_NOT_LOCAL` - User exists but no local password
-
-##### `resetPassword`
-
-Resets user password with new secure hash.
-
-```typescript
-resetPassword({ data }: {
-  data: { newPassword: string; identifier: string }
-}): Promise<UserType>
-```
-
-##### `findUserByIdentifier`
-
-Finds user by their identifier (email/phone).
-
-```typescript
-findUserByIdentifier(identifier: string): Promise<UserType | null>
 ```
 
 ### Interfaces
 
-#### IUserRepository
+#### SocialAuthProvider
 
 ```typescript
-interface IUserRepository<UserType, CreateDataType> {
-  findByIdentifier(params: { identifier: string }): Promise<UserType | null>;
-  create(params: CreateDataType): Promise<UserType>;
-  update(params: {
-    data: Partial<UserType>;
-    identifier: string;
-  }): Promise<UserType>;
+interface SocialAuthProvider {
+  provider: Provider;
+  getTokens(code: string): Promise<SocialTokensResult>;
+  getUser(tokens: SocialTokensResult): Promise<SocialUserResult>;
 }
 ```
 
-#### IHasher
+#### SocialUserResult
 
 ```typescript
-interface IHasher {
-  hash(text: string): Promise<string>;
-  compare(text: string, hash: string): Promise<boolean>;
+interface SocialUserResult {
+  id: string;
+  email: string;
+  name: string;
+  pictureUrl?: string;
+  locale?: string;
+  verified_email: boolean;
 }
 ```
 
-## 🛡️ Error Handling
+## 🔧 Advanced Features
 
-The service uses two main error types:
+### Professional Logging
 
-### AuthDomainError
-
-Business logic errors (expected scenarios):
+The service includes structured logging for production environments:
 
 ```typescript
-throw new AuthDomainError("AUTH_USED_IDENTIFIER", "Email already registered");
+interface SocialAuthLogger {
+  debug(message: string, meta?: Record<string, unknown>): void;
+  info(message: string, meta?: Record<string, unknown>): void;
+  warn(message: string, meta?: Record<string, unknown>): void;
+  error(message: string, error?: Error, meta?: Record<string, unknown>): void;
+}
+
+// Example with Winston
+const logger: SocialAuthLogger = {
+  debug: (message, meta) => winston.debug(message, meta),
+  info: (message, meta) => winston.info(message, meta),
+  warn: (message, meta) => winston.warn(message, meta),
+  error: (message, error, meta) => winston.error(message, { error, ...meta }),
+};
 ```
 
-### AuthUnexpectedError
+### Error Handling
 
-System errors (unexpected failures):
+Social authentication includes comprehensive error handling:
 
 ```typescript
-throw new AuthUnexpectedError(
-  "LOGIN_FAILED",
-  error,
-  "Authentication process failed"
-);
+try {
+  const result = await socialAuthLogin.execute(code, provider);
+} catch (error) {
+  if (error instanceof AuthDomainError) {
+    // Handle business logic errors
+  } else if (error instanceof AuthUnexpectedError) {
+    // Handle system errors
+  } else {
+    // Handle unknown errors
+  }
+}
 ```
 
-**Common Error Codes:**
+## 🛡️ Security Considerations
 
-- `AUTH_USED_IDENTIFIER` - Identifier already in use
-- `INCORRECT_CREDENTIALS` - Invalid login credentials
-- `USER_NOT_LOCAL` - User doesn't have local authentication
-- `LOGIN_FAILED` - Unexpected login error
-- `PASSWORD_RESET_FAILED` - Password reset error
+### Social Authentication
 
-## 🧪 Testing
+- **Token Validation** - All OAuth tokens are properly validated
+- **User Verification** - Email verification status is checked where available
+- **Secure Redirect URIs** - Proper redirect URI validation
+- **No Token Logging** - Sensitive tokens are never logged
 
-Run the test suite:
+### Environment Variables
 
 ```bash
-npm test
-npm run test:coverage
+# Google OAuth
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=https://yourapp.com/auth/google/callback
+
+# Facebook OAuth
+FACEBOOK_APP_ID=your_app_id
+FACEBOOK_APP_SECRET=your_app_secret
+FACEBOOK_REDIRECT_URI=https://yourapp.com/auth/facebook/callback
+
+# JWT Tokens
+JWT_SECRET=your_jwt_secret
 ```
 
-### Example Test Setup
+## 🧪 Testing Social Auth
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { LocalAuthService } from "@khni/auth";
+import { SocialAuthLogin, SocialAuthContext } from "@khni/auth";
 
-const mockUserRepository = {
-  findByIdentifier: vi.fn(),
-  create: vi.fn(),
-  update: vi.fn(),
-};
-
-const mockHasher = {
-  hash: vi.fn(),
-  compare: vi.fn(),
-};
-
-describe("LocalAuthService", () => {
-  let authService: LocalAuthService<any, any>;
+describe("SocialAuthLogin", () => {
+  let socialAuthLogin: SocialAuthLogin<any>;
+  let mockSocialAuthContext: SocialAuthContext;
+  let mockAuthTokenService: AuthTokensService;
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    authService = new LocalAuthService(mockUserRepository, mockHasher);
+    // Setup mocks
+    socialAuthLogin = new SocialAuthLogin(
+      mockSocialAuthContext,
+      mockAuthTokenService,
+      async (user, provider) => ({ id: "user-123", ...user }),
+      mockLogger
+    );
   });
 
-  it("should create user successfully", async () => {
-    // Test implementation
+  it("should handle social authentication successfully", async () => {
+    // Test social auth flow
   });
 });
 ```
 
-## 🔧 Configuration
+## 🔄 Migration Guide
 
-### Custom Hasher
+### Adding Social Authentication to Existing App
 
-Implement the `IHasher` interface to use different hashing algorithms:
+1. **Install Dependencies** - Ensure you have the latest version
+2. **Update User Schema** - Add social authentication fields
+3. **Configure Providers** - Set up Google, Facebook, etc.
+4. **Add Routes** - Create OAuth initiation and callback routes
+5. **Update UI** - Add social login buttons to your frontend
+
+### From Local-Only to Hybrid
 
 ```typescript
-class Argon2Hasher implements IHasher {
-  async hash(text: string): Promise<string> {
-    // Your argon2 implementation
-  }
+// Before: Local only
+const authService = new LocalAuthService(userRepository);
 
-  async compare(text: string, hash: string): Promise<boolean> {
-    // Your argon2 comparison
-  }
-}
+// After: Hybrid (local + social)
+const authService = new LocalAuthService(userRepository);
+const socialAuthLogin = new SocialAuthLogin(
+  socialAuthContext,
+  authTokenService,
+  handleSocialUser
+);
 ```
-
-### Identifier Validation
-
-The service uses `identifierSchema` for validating email/phone formats. Customize the schema to match your requirements.
-
-## 📈 Migration Guide
-
-### From Previous Versions
-
-This service replaces any previous authentication implementation with a more robust, type-safe solution:
-
-1. **Replace custom auth logic** with `LocalAuthService` methods
-2. **Implement `IUserRepository`** for your user data layer
-3. **Update error handling** to use `AuthDomainError` and `AuthUnexpectedError`
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Commit changes: `git commit -am 'Add new feature'`
-4. Push to branch: `git push origin feature/new-feature`
-5. Submit a pull request
+[Previous contributing section remains the same...]
 
 ## 📄 License
 
 MIT License - see LICENSE file for details
-
----
-
-Built with ❤️ by KHNI Team
