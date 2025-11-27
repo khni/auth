@@ -1,5 +1,11 @@
 # @khni/auth
 
+## 1.1.2
+
+### Patch Changes
+
+- Replace alias paths with relative paths after typescript compilation with tsc-alias
+
 ## 1.1.1
 
 ### Patch Changes
