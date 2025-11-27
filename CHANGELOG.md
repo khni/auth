@@ -1,5 +1,11 @@
 # @khni/auth
 
+## 1.1.1
+
+### Patch Changes
+
+- fix exporting in index.ts
+
 ## 1.1.0
 
 ### Minor Changes
