@@ -1,18 +1,17 @@
-# @khni/auth - Authentication Service
+# @khni/auth - Complete Authentication System
 
-A robust, type-safe authentication service for Node.js applications with support for local (email/phone) and social authentication providers.
+A robust, type-safe local authentication service for Node.js applications with complete token management, including access tokens, refresh tokens, and secure authentication flows.
 
 ## 🚀 Features
 
 - **🔐 Secure Authentication** - Password hashing with bcrypt and configurable hashers
 - **📧 Multi-Identifier Support** - Email and phone number authentication
-- **🌐 Social Auth** - Google, Facebook, and extensible provider system
+- **🔄 Token Management** - Complete JWT access token and refresh token system
 - **🛡️ Type-Safe** - Full TypeScript support with generic types
-- **📖 Comprehensive API** - Complete authentication flow (register, login, reset, social)
+- **📖 Comprehensive API** - Complete authentication flow (register, login, refresh, logout)
 - **🧪 Fully Tested** - 100% test coverage with Vitest
 - **📚 Well Documented** - JSDoc documentation compatible with API Extractor
 - **🎯 Error Handling** - Domain-specific and unexpected error handling
-- **📝 Professional Logging** - Structured logging for production environments
 
 ## 📦 Installation
 
@@ -24,25 +23,23 @@ yarn add @khni/auth
 
 ## 🏗️ Architecture
 
-### Authentication Services
+### Complete Authentication System
 
-The service follows a clean architecture pattern with clear separation of concerns:
+The service provides a complete authentication system combining local authentication with token management:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Authentication Layer                     │
-├─────────────────┐ ┌──────────────────┐ ┌───────────────────┤
-│ LocalAuthService│ │ SocialAuthContext│ │ SocialAuthLogin   │
-└─────────────────┘ └──────────────────┘ └───────────────────┘
-         │                         │                  │
-         │                         │                  │
-┌────────▼────────┐    ┌───────────▼──────────┐       │
-│  IUserRepository│    │ SocialAuthProvider   │       │
-└─────────────────┘    └──────────────────────┘       │
-         │                         │                  │
-┌────────▼────────┐    ┌───────────▼──────────┐ ┌─────▼──────┐
-│   Your User DB  │    │ Google  │ Facebook   │ │AuthTokens  │
-└─────────────────┘    └──────────────────────┘ └────────────┘
+┌─────────────────┐    ┌──────────────────┐    ┌──────────────┐
+│ LocalAuthService│ ── │   IUserRepository   │ ── │ Your User DB │
+└─────────────────┘    └──────────────────┘    └──────────────┘
+         │                       │
+         │                       │
+┌────────▼────────┐    ┌─────────▼────────┐    ┌─────────────────┐
+│ AuthTokensModule│ ── │ RefreshTokenRepo │ ── │  Token Storage  │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+         │
+┌────────▼────────┐
+│   JWT Tokens    │
+└─────────────────┘
 ```
 
 ## 🔧 Quick Start
@@ -53,41 +50,66 @@ The service follows a clean architecture pattern with clear separation of concer
 interface User {
   id: string;
   email: string;
-  password?: string;
+  password: string;
   name: string;
-  identifierType: "email" | "phone" | "social";
-  socialProvider?: "google" | "facebook";
-  socialId?: string;
+  identifierType: "email" | "phone";
 }
 
 interface CreateUserData {
   identifier: string;
-  password?: string;
+  password: string;
   name: string;
-  identifierType: "email" | "phone" | "social";
 }
 ```
 
-### 2. Local Authentication Setup
-
-#### Implement Your User Repository
+### 2. Implement Your User Repository
 
 ```typescript
 import { IUserRepository, BaseCreateUserData } from "@khni/auth";
+import { PrismaClient } from "@prisma/client";
 
-class UserRepository implements IUserRepository<User, CreateUserData> {
+export interface User {
+  id: string;
+  email: string;
+  password: string;
+  name?: string;
+  identifierType: "email" | "phone";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateUserData extends BaseCreateUserData {
+  name?: string;
+}
+
+export class UserRepository implements IUserRepository<User, CreateUserData> {
+  private prisma: PrismaClient;
+
+  constructor(prisma?: PrismaClient) {
+    this.prisma = prisma || new PrismaClient();
+  }
+
   async findByIdentifier({
     identifier,
   }: {
     identifier: string;
   }): Promise<User | null> {
-    // Your database lookup logic
-    return await db.users.findByEmail(identifier);
+    const user = await this.prisma.user.findUnique({
+      where: { email: identifier },
+    });
+    return user ? this.mapPrismaUserToUser(user) : null;
   }
 
   async create(data: CreateUserData): Promise<User> {
-    // Your user creation logic
-    return await db.users.create(data);
+    const user = await this.prisma.user.create({
+      data: {
+        email: data.identifier,
+        password: data.password,
+        name: data.name,
+        identifierType: "email",
+      },
+    });
+    return this.mapPrismaUserToUser(user);
   }
 
   async update({
@@ -97,427 +119,489 @@ class UserRepository implements IUserRepository<User, CreateUserData> {
     data: Partial<User>;
     identifier: string;
   }): Promise<User> {
-    // Your user update logic
-    return await db.users.update(identifier, data);
+    const { id, createdAt, ...updateData } = data;
+    const user = await this.prisma.user.update({
+      where: { email: identifier },
+      data: updateData,
+    });
+    return this.mapPrismaUserToUser(user);
+  }
+
+  private mapPrismaUserToUser(prismaUser: any): User {
+    return {
+      id: prismaUser.id,
+      email: prismaUser.email,
+      password: prismaUser.password,
+      name: prismaUser.name,
+      identifierType: prismaUser.identifierType,
+      createdAt: prismaUser.createdAt,
+      updatedAt: prismaUser.updatedAt,
+    };
   }
 }
 ```
 
-#### Set Up Local Authentication Service
+### 3. Implement Refresh Token Repository
+
+```typescript
+import { IRefreshTokenRepository } from "@khni/auth-tokens";
+import { PrismaClient } from "@prisma/client";
+
+export class RefreshTokenRepository implements IRefreshTokenRepository {
+  private prisma: PrismaClient;
+
+  constructor(prisma?: PrismaClient) {
+    this.prisma = prisma || new PrismaClient();
+  }
+
+  async create(token: {
+    id: string;
+    userId: string;
+    expiresAt: Date;
+  }): Promise<void> {
+    await this.prisma.refreshToken.create({
+      data: {
+        id: token.id,
+        userId: token.userId,
+        expiresAt: token.expiresAt,
+      },
+    });
+  }
+
+  async findById(
+    id: string
+  ): Promise<{ id: string; userId: string; expiresAt: Date } | null> {
+    const token = await this.prisma.refreshToken.findUnique({
+      where: { id },
+    });
+    return token || null;
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.prisma.refreshToken.delete({
+      where: { id },
+    });
+  }
+
+  async deleteByUserId(userId: string): Promise<void> {
+    await this.prisma.refreshToken.deleteMany({
+      where: { userId },
+    });
+  }
+}
+```
+
+### 4. Set Up Complete Authentication System
 
 ```typescript
 import { LocalAuthService, BcryptHasher } from "@khni/auth";
-
-const userRepository = new UserRepository();
-const authService = new LocalAuthService<User, userRepository>(userRepository);
-```
-
-### 3. Social Authentication Setup
-
-#### Configure Social Providers
-
-```typescript
 import {
-  GoogleSocialAuthStrategy,
-  FacebookSocialAuthStrategy,
-  SocialAuthContext,
-  SocialAuthLogin,
-} from "@khni/auth";
+  initAuthTokensModule,
+  getAuthTokensService,
+  type AuthModuleConfig,
+} from "@khni/auth-tokens";
 
-// Configure Google
-const googleStrategy = new GoogleSocialAuthStrategy({
-  clientId: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  redirectUri: process.env.GOOGLE_REDIRECT_URI,
-});
+// Setup repositories
+const userRepository = new UserRepository();
+const refreshTokenRepository = new RefreshTokenRepository();
 
-// Configure Facebook
-const facebookStrategy = new FacebookSocialAuthStrategy({
-  appId: process.env.FACEBOOK_APP_ID,
-  appSecret: process.env.FACEBOOK_APP_SECRET,
-  redirectUri: process.env.FACEBOOK_REDIRECT_URI,
-});
+// Initialize authentication service
+const authService = new LocalAuthService(userRepository);
 
-// Create social auth context
-const socialAuthContext = new SocialAuthContext([
-  googleStrategy,
-  facebookStrategy,
-  // Add more providers as needed
-]);
+// Initialize token module
+const authConfig: AuthModuleConfig = {
+  jwtSecret: process.env.JWT_SECRET!,
+  accessTokenExpiresIn: "15m",
+  refreshTokenExpiresIn: "7d",
+  refreshTokenRepository,
+  findUniqueUserById: async (userId: string) => {
+    return await userRepository.findByIdentifier({ identifier: userId });
+  },
+  logger: console, // optional
+};
+
+initAuthTokensModule(authConfig);
+const tokensService = getAuthTokensService();
 ```
 
-#### Set Up Social Authentication Service
+## 🔐 Complete Authentication Flow
+
+### User Registration
 
 ```typescript
-import { AuthTokensService } from "@khni/auth";
-
-const authTokenService = new AuthTokensService({
-  secret: process.env.JWT_SECRET,
-  expiresIn: "1h",
-});
-
-const socialAuthLogin = new SocialAuthLogin(
-  socialAuthContext,
-  authTokenService,
-  async (socialUser, provider) => {
-    // Handle social user conversion to your app user
-    let user = await userRepository.findByIdentifier({
-      identifier: socialUser.email,
-    });
-
-    if (!user) {
-      // Create new user from social profile
-      user = await userRepository.create({
-        identifier: socialUser.email,
-        name: socialUser.name,
-        identifierType: "social",
-        socialProvider: provider,
-        socialId: socialUser.id,
-      });
-    }
-
-    return user;
-  }
-);
-```
-
-### 4. Use in Your Application
-
-#### Local Authentication
-
-```typescript
-// Register a new user
-const user = await authService.createUser({
-  data: {
-    identifier: "user@example.com",
-    password: "securePassword123",
-    name: "John Doe",
-  },
-});
-
-// Authenticate user for login
-const authenticatedUser = await authService.verifyPassword({
-  data: {
-    identifier: "user@example.com",
-    password: "securePassword123",
-  },
-});
-
-// Reset password
-await authService.resetPassword({
-  data: {
-    identifier: "user@example.com",
-    newPassword: "newSecurePassword456",
-  },
-});
-```
-
-#### Social Authentication
-
-```typescript
-// Handle social authentication callback
-app.get("/auth/:provider/callback", async (req, res) => {
+async function registerUser(email: string, password: string, name: string) {
   try {
-    const { code } = req.query;
-    const { provider } = req.params;
-
-    const result = await socialAuthLogin.execute(
-      code as string,
-      provider as Provider
-    );
-
-    // Return tokens and user info to client
-    res.json({
-      accessToken: result.accessToken,
-      refreshToken: result.refreshToken,
-      user: result.appUser,
+    // 1. Create user in database with hashed password
+    const user = await authService.createUser({
+      data: {
+        identifier: email,
+        password: password,
+        name: name,
+      },
     });
+
+    // 2. Generate access and refresh tokens
+    const tokens = await tokensService.generate(user.id);
+
+    // 3. Return user and tokens (exclude password from response)
+    const { password: _, ...userWithoutPassword } = user;
+    return {
+      user: userWithoutPassword,
+      tokens,
+    };
   } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Example: Google OAuth flow initiation
-app.get("/auth/google", (req, res) => {
-  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${new URLSearchParams(
-    {
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
-      response_type: "code",
-      scope: "email profile",
-      access_type: "offline",
-      prompt: "consent",
+    if (error.code === "AUTH_USED_IDENTIFIER") {
+      throw new Error("User with this email already exists");
     }
-  )}`;
-
-  res.redirect(authUrl);
-});
-```
-
-## 🌐 Social Authentication Providers
-
-### Supported Providers
-
-- **Google** - OAuth 2.0 with profile and email scope
-- **Facebook** - OAuth with user profile data
-- **Extensible** - Easy to add new providers (Twitter, GitHub, LinkedIn, etc.)
-
-### Provider Configuration
-
-#### Google OAuth
-
-```typescript
-const googleConfig = {
-  clientId: "your-google-client-id",
-  clientSecret: "your-google-client-secret",
-  redirectUri: "https://yourapp.com/auth/google/callback",
-};
-```
-
-#### Facebook OAuth
-
-```typescript
-const facebookConfig = {
-  appId: "your-facebook-app-id",
-  appSecret: "your-facebook-app-secret",
-  redirectUri: "https://yourapp.com/auth/facebook/callback",
-};
-```
-
-### Adding Custom Providers
-
-Implement the `SocialAuthProvider` interface:
-
-```typescript
-class CustomSocialAuthStrategy implements SocialAuthProvider {
-  provider: Provider = "custom";
-
-  constructor(private config: CustomAuthConfig) {}
-
-  async getTokens(code: string): Promise<SocialTokensResult> {
-    // Exchange code for tokens
-  }
-
-  async getUser(tokens: SocialTokensResult): Promise<SocialUserResult> {
-    // Fetch user profile with access token
+    throw new Error("Registration failed");
   }
 }
+
+// Usage
+const result = await registerUser(
+  "user@example.com",
+  "securePassword123",
+  "John Doe"
+);
+console.log(result);
+// {
+//   user: { id: "123", email: "user@example.com", name: "John Doe", ... },
+//   tokens: { accessToken: "eyJ...", refreshToken: "abc123..." }
+// }
 ```
+
+### User Login
+
+```typescript
+async function loginUser(email: string, password: string) {
+  try {
+    // 1. Verify user credentials
+    const user = await authService.verifyPassword({
+      data: {
+        identifier: email,
+        password: password,
+      },
+    });
+
+    // 2. Generate new tokens
+    const tokens = await tokensService.generate(user.id);
+
+    // 3. Return user and tokens (exclude password from response)
+    const { password: _, ...userWithoutPassword } = user;
+    return {
+      user: userWithoutPassword,
+      tokens,
+    };
+  } catch (error) {
+    if (error.code === "INCORRECT_CREDENTIALS") {
+      throw new Error("Invalid email or password");
+    }
+    throw new Error("Login failed");
+  }
+}
+
+// Usage
+const result = await loginUser("user@example.com", "securePassword123");
+```
+
+### Token Refresh
+
+```typescript
+async function refreshTokens(refreshToken: string) {
+  try {
+    // 1. Verify refresh token and generate new tokens
+    const tokens = await tokensService.refresh(refreshToken);
+
+    return {
+      tokens,
+    };
+  } catch (error) {
+    if (error.code === "REFRESH_TOKEN_INVALID") {
+      throw new Error("Invalid or expired refresh token");
+    }
+    throw new Error("Token refresh failed");
+  }
+}
+
+// Usage when access token expires
+const newTokens = await refreshTokens(oldRefreshToken);
+```
+
+### User Logout
+
+```typescript
+async function logoutUser(refreshToken: string) {
+  try {
+    // 1. Revoke the refresh token
+    await tokensService.logout(refreshToken);
+
+    return { success: true };
+  } catch (error) {
+    throw new Error("Logout failed");
+  }
+}
+
+// Usage
+await logoutUser(refreshToken);
+```
+
+### Complete Express.js Example
+
+```typescript
+import express from "express";
+import { LocalAuthService, BcryptHasher } from "@khni/auth";
+import { initAuthTokensModule, getAuthTokensService } from "@khni/auth-tokens";
+import { UserRepository } from "./repositories/UserRepository";
+import { RefreshTokenRepository } from "./repositories/RefreshTokenRepository";
+
+const app = express();
+app.use(express.json());
+
+// Setup
+const userRepository = new UserRepository();
+const refreshTokenRepository = new RefreshTokenRepository();
+const authService = new LocalAuthService(userRepository);
+
+initAuthTokensModule({
+  jwtSecret: process.env.JWT_SECRET!,
+  accessTokenExpiresIn: "15m",
+  refreshTokenExpiresIn: "7d",
+  refreshTokenRepository,
+  findUniqueUserById: async (userId) =>
+    await userRepository.findByIdentifier({ identifier: userId }),
+});
+
+const tokensService = getAuthTokensService();
+
+// Auth middleware
+const authenticateToken = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
+
+  if (!token) {
+    return res.status(401).json({ error: "Access token required" });
+  }
+
+  try {
+    const accessTokenService = getAccessTokenService();
+    const payload = accessTokenService.verify(token);
+    req.user = payload; // { userId: "123" }
+    next();
+  } catch (error) {
+    return res.status(403).json({ error: "Invalid or expired token" });
+  }
+};
+
+// Routes
+app.post("/register", async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    const user = await authService.createUser({
+      data: { identifier: email, password, name },
+    });
+
+    const tokens = await tokensService.generate(user.id);
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.status(201).json({
+      user: userWithoutPassword,
+      tokens,
+    });
+  } catch (error) {
+    if (error.code === "AUTH_USED_IDENTIFIER") {
+      return res.status(409).json({ error: "User already exists" });
+    }
+    res.status(500).json({ error: "Registration failed" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await authService.verifyPassword({
+      data: { identifier: email, password },
+    });
+
+    const tokens = await tokensService.generate(user.id);
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.json({
+      user: userWithoutPassword,
+      tokens,
+    });
+  } catch (error) {
+    if (error.code === "INCORRECT_CREDENTIALS") {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+app.post("/refresh", async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    const tokens = await tokensService.refresh(refreshToken);
+    res.json({ tokens });
+  } catch (error) {
+    res.status(401).json({ error: "Invalid refresh token" });
+  }
+});
+
+app.post("/logout", async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    await tokensService.logout(refreshToken);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: "Logout failed" });
+  }
+});
+
+app.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const user = await userRepository.findByIdentifier({
+      identifier: req.user.userId,
+    });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const { password: _, ...userWithoutPassword } = user;
+    res.json({ user: userWithoutPassword });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+```
+
+## 🔄 Token Management
+
+### Access Tokens
+
+- **Short-lived** (15 minutes by default)
+- **JWT-based** with user payload
+- **Stateless** - verified using secret key
+- **Used for API authentication**
+
+### Refresh Tokens
+
+- **Long-lived** (7 days by default)
+- **Stored in database** for revocation
+- **Used to obtain new access tokens**
+- **Automatically revoked on logout**
+
+## 🛡️ Security Features
+
+### Password Security
+
+- **Bcrypt hashing** with configurable rounds
+- **Automatic salt generation**
+- **Timing-attack resistant comparison**
+
+### Token Security
+
+- **JWT secret key** for signing
+- **Short expiration times** for access tokens
+- **Database-backed refresh tokens** for revocation
+- **Secure token generation** using crypto module
+
+### Best Practices
+
+- **Never store passwords in plain text**
+- **Use HTTPS in production**
+- **Implement rate limiting** on auth endpoints
+- **Store refresh tokens securely** (httpOnly cookies recommended)
+- **Implement token blacklisting** for immediate revocation
 
 ## 📖 API Reference
 
-### LocalAuthService
+### LocalAuthService Methods
 
-[Previous LocalAuthService documentation remains the same...]
+#### `createUser`
 
-### SocialAuthContext
+Creates a new user with hashed password.
 
-#### Constructor
+#### `verifyPassword`
 
-```typescript
-new SocialAuthContext(
-  socialAuthProviders: SocialAuthProvider[],
-  logger?: SocialAuthLogger
-)
-```
+Verifies user credentials for login.
 
-#### Methods
+#### `resetPassword`
 
-##### `authenticate`
+Updates user password with new hash.
 
-Authenticates a user using a social provider's authorization code.
+#### `findUserByIdentifier`
 
-```typescript
-authenticate(
-  code: string,
-  provider: Provider
-): Promise<{ tokens: SocialTokensResult; user: SocialUserResult }>
-```
+Finds user by email/phone identifier.
 
-### SocialAuthLogin
+### AuthTokensService Methods
 
-#### Constructor
+#### `generate`
 
-```typescript
-new SocialAuthLogin<User>(
-  socialAuthContext: SocialAuthContext,
-  authTokenService: AuthTokensService,
-  handleSocialUser: (user: SocialUserResult, provider: Provider) => Promise<User>,
-  logger?: SocialAuthLogger
-)
-```
+Generates new access and refresh tokens for a user.
 
-#### Methods
+#### `refresh`
 
-##### `execute`
+Verifies refresh token and generates new tokens.
 
-Executes the complete social authentication login flow.
+#### `logout`
+
+Revokes a refresh token.
+
+## 🧪 Testing Your Implementation
 
 ```typescript
-execute(
-  code: string,
-  provider: Provider
-): Promise<SocialAuthLoginResult<User>>
+import { describe, it, expect, beforeEach } from "vitest";
+import { LocalAuthService } from "@khni/auth";
+import { initAuthTokensModule, getAuthTokensService } from "@khni/auth-tokens";
+
+describe("Authentication Flow", () => {
+  beforeEach(() => {
+    // Reset modules and clear database
+  });
+
+  it("should complete full authentication flow", async () => {
+    // 1. Register user
+    // 2. Login with credentials
+    // 3. Access protected route with token
+    // 4. Refresh tokens
+    // 5. Logout
+  });
+});
 ```
 
-**Returns:**
-
-```typescript
-{
-  accessToken: string; // JWT access token
-  refreshToken: string; // Refresh token
-  user: SocialUserResult; // Social provider user data
-  appUser: User; // Your application user
-}
-```
-
-### Interfaces
-
-#### SocialAuthProvider
-
-```typescript
-interface SocialAuthProvider {
-  provider: Provider;
-  getTokens(code: string): Promise<SocialTokensResult>;
-  getUser(tokens: SocialTokensResult): Promise<SocialUserResult>;
-}
-```
-
-#### SocialUserResult
-
-```typescript
-interface SocialUserResult {
-  id: string;
-  email: string;
-  name: string;
-  pictureUrl?: string;
-  locale?: string;
-  verified_email: boolean;
-}
-```
-
-## 🔧 Advanced Features
-
-### Professional Logging
-
-The service includes structured logging for production environments:
-
-```typescript
-interface SocialAuthLogger {
-  debug(message: string, meta?: Record<string, unknown>): void;
-  info(message: string, meta?: Record<string, unknown>): void;
-  warn(message: string, meta?: Record<string, unknown>): void;
-  error(message: string, error?: Error, meta?: Record<string, unknown>): void;
-}
-
-// Example with Winston
-const logger: SocialAuthLogger = {
-  debug: (message, meta) => winston.debug(message, meta),
-  info: (message, meta) => winston.info(message, meta),
-  warn: (message, meta) => winston.warn(message, meta),
-  error: (message, error, meta) => winston.error(message, { error, ...meta }),
-};
-```
-
-### Error Handling
-
-Social authentication includes comprehensive error handling:
-
-```typescript
-try {
-  const result = await socialAuthLogin.execute(code, provider);
-} catch (error) {
-  if (error instanceof AuthDomainError) {
-    // Handle business logic errors
-  } else if (error instanceof AuthUnexpectedError) {
-    // Handle system errors
-  } else {
-    // Handle unknown errors
-  }
-}
-```
-
-## 🛡️ Security Considerations
-
-### Social Authentication
-
-- **Token Validation** - All OAuth tokens are properly validated
-- **User Verification** - Email verification status is checked where available
-- **Secure Redirect URIs** - Proper redirect URI validation
-- **No Token Logging** - Sensitive tokens are never logged
+## 🔧 Configuration
 
 ### Environment Variables
 
 ```bash
-# Google OAuth
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
-GOOGLE_REDIRECT_URI=https://yourapp.com/auth/google/callback
-
-# Facebook OAuth
-FACEBOOK_APP_ID=your_app_id
-FACEBOOK_APP_SECRET=your_app_secret
-FACEBOOK_REDIRECT_URI=https://yourapp.com/auth/facebook/callback
-
-# JWT Tokens
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your-super-secure-jwt-secret-key
+DATABASE_URL=your-database-connection-string
 ```
 
-## 🧪 Testing Social Auth
+### Token Expiration Settings
 
 ```typescript
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { SocialAuthLogin, SocialAuthContext } from "@khni/auth";
-
-describe("SocialAuthLogin", () => {
-  let socialAuthLogin: SocialAuthLogin<any>;
-  let mockSocialAuthContext: SocialAuthContext;
-  let mockAuthTokenService: AuthTokensService;
-
-  beforeEach(() => {
-    // Setup mocks
-    socialAuthLogin = new SocialAuthLogin(
-      mockSocialAuthContext,
-      mockAuthTokenService,
-      async (user, provider) => ({ id: "user-123", ...user }),
-      mockLogger
-    );
-  });
-
-  it("should handle social authentication successfully", async () => {
-    // Test social auth flow
-  });
-});
-```
-
-## 🔄 Migration Guide
-
-### Adding Social Authentication to Existing App
-
-1. **Install Dependencies** - Ensure you have the latest version
-2. **Update User Schema** - Add social authentication fields
-3. **Configure Providers** - Set up Google, Facebook, etc.
-4. **Add Routes** - Create OAuth initiation and callback routes
-5. **Update UI** - Add social login buttons to your frontend
-
-### From Local-Only to Hybrid
-
-```typescript
-// Before: Local only
-const authService = new LocalAuthService(userRepository);
-
-// After: Hybrid (local + social)
-const authService = new LocalAuthService(userRepository);
-const socialAuthLogin = new SocialAuthLogin(
-  socialAuthContext,
-  authTokenService,
-  handleSocialUser
-);
+const authConfig = {
+  accessTokenExpiresIn: "15m", // 15 minutes
+  refreshTokenExpiresIn: "7d", // 7 days
+  // Supported units: ms, s, m, h, d
+};
 ```
 
 ## 🤝 Contributing
 
-[Previous contributing section remains the same...]
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit changes: `git commit -am 'Add new feature'`
+4. Push to branch: `git push origin feature/new-feature`
+5. Submit a pull request
 
 ## 📄 License
 
