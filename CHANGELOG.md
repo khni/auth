@@ -1,5 +1,15 @@
 # @khni/auth
 
+## 2.0.0
+
+### Major Changes
+
+- Remove default hasher from LocalAuthService and require explicit injection.
+
+  BREAKING CHANGE: LocalAuthService no longer provides a default BcryptHasher.
+  Consumers must now pass an IHasher implementation (e.g., bcrypt, bcryptjs, argon2)
+  when constructing the service.
+
 ## 1.2.0
 
 ### Minor Changes

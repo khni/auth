@@ -6,7 +6,6 @@ import { ILocalAuthService } from "./interfaces/ILocalAuthService.js";
 import { IUserRepository } from "./interfaces/IUserRepository.js";
 import { BaseCreateUserData } from "./types.js";
 import { IHasher } from "../core/hasher/IHasher.js";
-import { BcryptHasher } from "../core/hasher/BcryptHasher.js";
 import { parseIdentifier } from "./utils.js";
 
 /**
@@ -33,10 +32,7 @@ export class LocalAuthService<
    * @param hasher - Hashing adapter (bcrypt, argon2, etc).
    * @public
    */
-  constructor(
-    private UserRepository: S,
-    private hasher: IHasher = new BcryptHasher()
-  ) {}
+  constructor(private UserRepository: S, private hasher: IHasher) {}
 
   /**
    * Wraps and transforms thrown errors into domain or unexpected errors.
