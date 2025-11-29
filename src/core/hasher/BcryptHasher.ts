@@ -9,7 +9,7 @@ import { IHasher } from "./IHasher.js";
  * Uses the bcrypt algorithm with 10 salt rounds for secure password hashing.
  * BCrypt automatically handles salt generation and incorporates it into the hash.
  *
- * @public
+ * @internal
  */
 export class BcryptHasher implements IHasher {
   /**

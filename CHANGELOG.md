@@ -1,5 +1,19 @@
 # @khni/auth
 
+## 3.0.0
+
+### Major Changes
+
+- Replace deprecated BcryptHasher with BcryptjsHasher and remove old export.
+
+  BREAKING CHANGE: The previously exported BcryptHasher class has been fully
+  removed from the package. LocalAuthService still provides a default hasher,
+  but now uses BcryptjsHasher internally for better compatibility with bundlers
+  and environments like Next.js.
+
+  If your code relied on importing BcryptHasher, you must migrate to your own
+  IHasher implementation or use the built-in BcryptjsHasher.
+
 ## 2.0.0
 
 ### Major Changes
